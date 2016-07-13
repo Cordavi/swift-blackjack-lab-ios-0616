@@ -28,38 +28,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    }   ///////////////
    
    func playBlackjack() {
+      //set bet ammount
       dealer.placeBet(150)
+      
+      //shuffle the deck
       dealer.deck.shuffle()
-      print(dealer.deck.shuffle())
+      
+      //deal inital cards to player and house
       dealer.deal()
       print("\(dealer.player.description)\n\n\(dealer.house.description)\n")
       
+      //check if their is a winner on deal
       guard dealer.winner() != "No" else { return }
       
+      //Allows player to play out their turn(s)
       while dealer.player.cards.count <= 5 {
          dealer.turn(dealer.player)
          guard dealer.winner() == "No" else { break }
       }
       
+      //Allow house to play out their turn(s)
       while dealer.house.cards.count <= 5 {
          dealer.turn(dealer.house)
          guard dealer.winner() == "No" else { break }
       }
       
-      for card in dealer.player.cards {
-         print("Player's Cards: \(card.description)")
-      }
-      
-      for card in dealer.house.cards {
-         print("House's Cards: \(card.description)")
-      }
-      
-      print("\nPlayer score: \(dealer.player.handscore)")
-      print("House score: \(dealer.house.handscore)")
-      
+      //Print the winner of the round and the players hands/scores
+      print("\(dealer.player.description)\n\n\(dealer.house.description)\n")
       print("\n\(dealer.winner())\n")
+      
+      //Award tokens to winning player and subtracts from losing player
       dealer.award()
-      dealer.deck.collectDealtCards()
    }
    
 }
